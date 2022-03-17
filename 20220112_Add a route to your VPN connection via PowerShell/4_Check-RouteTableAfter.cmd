@@ -1,6 +1,6 @@
 :::::: check active routes (when connected to VPN, with active custom routes, added via PowerShell)
 
-:: C:\> route print
+route print
 :: ===========================================================================
 :: Interface List
 :: ...
