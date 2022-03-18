@@ -158,7 +158,7 @@ sudo apt-mark hold kubelet kubeadm kubectl
 # generate token for the installation
 TOKEN=$(sudo kubeadm token generate)
 echo $TOKEN
-# rqyytr.f3pvvz2yepq51b7h
+# <some_token_info>
  
 sudo kubeadm init --token=${TOKEN} --kubernetes-version=v1.19.4 --pod-network-cidr=10.244.0.0/16
 # W1208 16:59:02.624049     781 configset.go:348] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
@@ -210,7 +210,7 @@ sudo kubeadm init --token=${TOKEN} --kubernetes-version=v1.19.4 --pod-network-ci
 # [upload-certs] Skipping phase. Please see --upload-certs
 # [mark-control-plane] Marking the node pimaster as control-plane by adding the label "node-role.kubernetes.io/master=''"
 # [mark-control-plane] Marking the node pimaster as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule]
-# [bootstrap-token] Using token: rqyytr.f3pvvz2yepq51b7h
+# [bootstrap-token] Using token: <some_token_info>
 # [bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
 # [bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to get nodes
 # [bootstrap-token] configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
@@ -234,7 +234,7 @@ sudo kubeadm init --token=${TOKEN} --kubernetes-version=v1.19.4 --pod-network-ci
 #
 # Then you can join any number of worker nodes by running the following on each as root:
 #
-# kubeadm join 192.168.12.101:6443 --token rqyytr.f3pvvz2yepq51b7h \
+# kubeadm join 192.168.12.101:6443 --token <some_token_info> \
 #     --discovery-token-ca-cert-hash sha256:5b04368aaee148fa3eb8c6aed3c3bc8041248590e2055a81617d16d8f796bb77
  
 # start using the cluster
@@ -262,7 +262,7 @@ kubectl get nodes
 # pimaster   Ready      master   17m     v1.19.4
  
 # add node to the cluster (pinode, 192.168.12.102)
-sudo kubeadm join 192.168.12.101:6443 --token rqyytr.f3pvvz2yepq51b7h --discovery-token-ca-cert-hash sha256:5b04368aaee148fa3eb8c6aed3c3bc8041248590e2055a81617d16d8f796bb77
+sudo kubeadm join 192.168.12.101:6443 --token <some_token_info> --discovery-token-ca-cert-hash sha256:5b04368aaee148fa3eb8c6aed3c3bc8041248590e2055a81617d16d8f796bb77
 # [preflight] Running pre-flight checks
 # [preflight] Reading configuration from the cluster...
 # [preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -oyaml'
