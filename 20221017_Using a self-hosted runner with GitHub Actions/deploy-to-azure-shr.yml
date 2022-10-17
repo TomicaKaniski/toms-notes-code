@@ -1,0 +1,42 @@
+name: deploy-to-azure
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+env:
+  resourceGroupName: SimpleAzureRG
+
+jobs:
+  deploy-to-azure:
+    runs-on: self-hosted
+
+    steps:
+      - name: "Checkout the code from GitHub"
+        uses: actions/checkout@v3
+
+      - name: "Build Bicep code into ARM (JSON)"
+        uses: Azure/cli@v1
+        with:
+          inlineScript: az bicep build --file ./main.bicep --outfile ./main.json
+
+      - name: "Login to Azure"
+        uses: Azure/login@v1.4.6
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          enable-AzPSSession: true
+
+      - name: "Create the resource group, if needed"
+        uses: Azure/powershell@v1
+        with:
+          inlineScript: New-AzResourceGroup -Name ${{ env.resourceGroupName }} -location WestEurope -Force
+          azPSVersion: latest
+
+      - name: "Deploy the ARM template"
+        uses: Azure/arm-deploy@v1.0.8
+        with:
+          scope: resourcegroup
+          resourceGroupName: ${{ env.resourceGroupName }}
+          template: main.json
+          parameters: storageAccountPrefix=simplegh
+          deploymentName: "gh${{ github.run_id }}"
